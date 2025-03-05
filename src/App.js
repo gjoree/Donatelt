@@ -4,7 +4,7 @@ import Home from './components/Home';
 import Marketplace from './components/Marketplace';
 import Games from './components/Games';
 import { FaHome, FaCoins, FaSignInAlt } from 'react-icons/fa';
-import { GiAk47U } from "react-icons/gi";
+import { GiReceiveMoney } from "react-icons/gi";
 import { CiLogout } from "react-icons/ci";
 import axios from 'axios';
 
@@ -47,7 +47,7 @@ const App = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', { username, email, password });
+      const response = await axios.post('http://localhost:5000/api/auth/signup', { username, email, password, location });
       if (response.data) {
         alert('Sign-up successful! Please log in.');
         toggleSignUp(); // Switch back to the Login form
@@ -85,7 +85,7 @@ const App = () => {
               </li>
               <li>
                 <Link to="/games" className="navbar-link">
-                <GiAk47U /> Receivings
+                <GiReceiveMoney /> Receivings
                 </Link>
               </li>
               <li>
@@ -110,12 +110,16 @@ const App = () => {
               <h2>{isSignUp ? 'Create an Account' : 'Welcome Back!'}</h2>
               <form onSubmit={isSignUp ? handleSignUp : handleLogin}>
                 {isSignUp && (
-                                  <><input
-                    type="text"
-                    placeholder="Location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    required /><input
+                            <><select
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            required
+                            >
+                            <option value="">Select a city</option>
+                            <option value="Koper">Koper</option>
+                            <option value="Ljubljana">Ljubljana</option>
+                            <option value="Maribor">Maribor</option>
+                            </select><input
                       type="text"
                       placeholder="Username"
                       value={username}

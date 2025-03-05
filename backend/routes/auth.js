@@ -13,12 +13,12 @@ router.post('/signup', async (req, res) => {
 
     // Insert the new user into the database
     const [result] = await pool.query(
-      'INSERT INTO users (username, email, password, location) VALUES (?, ?, ?, ?)',
+      'INSERT INTO Users (name, email, password, location) VALUES (?, ?, ?, ?)',
       [username, email, hashedPassword, location]
     );
 
     // Fetch the newly inserted user
-    const [newUser] = await pool.query('SELECT * FROM users WHERE user_id = ?', [result.insertId]);
+    const [newUser] = await pool.query('SELECT * FROM Users WHERE user_id = ?', [result.insertId]);
 
     // Return the new user
     res.json(newUser[0]);
@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     // Fetch the user by email
-    const [user] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+    const [user] = await pool.query('SELECT * FROM Users WHERE email = ?', [email]);
 
     // Check if the user exists
     if (user.length === 0) {
