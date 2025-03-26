@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
-import Marketplace from './components/Marketplace';
-import Games from './components/Games';
+import Donations from './components/Donations';
+import Receivings from './components/Receivings';
 import { FaHome, FaCoins, FaSignInAlt } from 'react-icons/fa';
 import { GiReceiveMoney } from "react-icons/gi";
 import { CiLogout } from "react-icons/ci";
 import axios from 'axios';
-
 import './App.css';
 
 const App = () => {
@@ -17,6 +16,7 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [location, setLocation] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState('');
 
   const toggleLogin = () => {
@@ -47,7 +47,7 @@ const App = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', { username, email, password, location });
+      const response = await axios.post('http://localhost:5000/api/auth/signup', { username, email, password, location, phoneNumber });
       if (response.data) {
         alert('Sign-up successful! Please log in.');
         toggleSignUp(); // Switch back to the Login form
@@ -79,12 +79,12 @@ const App = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/marketplace" className="navbar-link">
+                <Link to="/donations" className="navbar-link">
                 <FaCoins /> Donations
                 </Link>
               </li>
               <li>
-                <Link to="/games" className="navbar-link">
+                <Link to="/receivings" className="navbar-link">
                 <GiReceiveMoney /> Receivings
                 </Link>
               </li>
@@ -119,13 +119,20 @@ const App = () => {
                             <option value="Koper">Koper</option>
                             <option value="Ljubljana">Ljubljana</option>
                             <option value="Maribor">Maribor</option>
-                            </select><input
+                            </select>
+                      <input
                       type="text"
                       placeholder="Username"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      required /></>
-                  
+                      required />
+                      <input
+                      type="text"
+                      placeholder="Phone Number"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      required
+                      /></>
                 )}
                 <input
                   type="email"
@@ -159,8 +166,8 @@ const App = () => {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/marketplace" element={<Marketplace />} />
-          <Route path="/games" element={<Games />} />
+          <Route path="/donations" element={<Donations />} />
+          <Route path="/receivings" element={<Receivings />} />
         </Routes>
 
         <footer className="footer">

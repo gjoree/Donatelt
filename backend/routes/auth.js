@@ -6,15 +6,15 @@ const router = express.Router();
 
 // Sign-up
 router.post('/signup', async (req, res) => {
-  const { username, email, password, location } = req.body;
+  const { username, email, password, location, phoneNumber } = req.body;
   try {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert the new user into the database
     const [result] = await pool.query(
-      'INSERT INTO Users (name, email, password, location) VALUES (?, ?, ?, ?)',
-      [username, email, hashedPassword, location]
+      'INSERT INTO Users (name, email, password, location, mobile_number) VALUES (?, ?, ?, ?, ?)',
+      [username, email, hashedPassword, location, phoneNumber]
     );
 
     // Fetch the newly inserted user
