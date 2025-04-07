@@ -37,7 +37,7 @@ const Post = ({ post, type }) => {
           <FaUserCircle className='user-avatar' size={40} />
           <div className='user-info'>
             <h3 className='username'>{post.user.username}</h3>
-            <p className='timestamp'>{post.created_at}</p>
+            {/* <p className='timestamp'>{post.created_at}</p> */}
           </div>
         </div>
 
@@ -46,6 +46,20 @@ const Post = ({ post, type }) => {
           <h3 className='post-title'>{post.title}</h3>
           <p className='post-description'>{post.description}</p>
         </div>
+
+        {/* Image Display */}
+        {post.image && (
+          <div className='post-image-container'>
+            <img
+              src={post.image}
+              alt={post.title}
+              className='post-image'
+              onError={(e) => {
+                e.target.style.display = 'none' // Hide if image fails to load
+              }}
+            />
+          </div>
+        )}
 
         {/* Tags */}
         <div className='post-tags'>
@@ -82,6 +96,7 @@ const Post = ({ post, type }) => {
         {/* Comments Section */}
         <div className='comments-section'>
           <input
+            style={{ width: '93.7%' }}
             type='text'
             placeholder='Write a comment...'
             value={newComment}
@@ -97,9 +112,12 @@ const Post = ({ post, type }) => {
             {comments.map((comment, index) => (
               <div key={index} className='comment-item'>
                 <FaUserCircle className='comment-avatar' size={28} />
-                <div className='comment-content'>
+                <div className='comment-text'>
+                  {' '}
+                  {/* CHANGE CLASS TO "comment-text" */}
                   <span className='comment-user'>{comment.user.username}</span>
-                  <p>{comment.content}</p>
+                  <p className='comment-message'>{comment.content}</p>{' '}
+                  {/* ADDED NEW CLASS */}
                 </div>
               </div>
             ))}
