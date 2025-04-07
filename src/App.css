@@ -114,7 +114,7 @@ form {
   font-size: 1rem;
 }
 
-.login-content button[type="submit"] {
+.login-content button[type='submit'] {
   width: 100%;
   padding: 0.75rem;
   background-color: #6200ea;
@@ -126,7 +126,7 @@ form {
   transition: background-color 0.3s ease;
 }
 
-.login-content button[type="submit"]:hover {
+.login-content button[type='submit']:hover {
   background-color: #3700b3;
 }
 
@@ -170,16 +170,6 @@ form {
   color: #555;
 }
 
-/* Games Page Styles */
-iframe {
-  width: 80%;
-  height: 500px;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 2rem;
-}
-
 /* Footer Styles */
 .footer {
   background-color: #333;
@@ -217,175 +207,317 @@ iframe {
   animation: fadeIn 0.8s ease-in-out;
 }
 
-/* Post Container */
+.post-background {
+  width: 500px;
+  background-color: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
 .post-container {
   width: 100%;
-  max-width: 500px;
-  margin: 20px auto;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
+  max-width: 600px;
   background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 16px;
 }
 
-/* Header */
 .post-header {
   display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.user-avatar {
-  color: #ccc;
-  margin-right: 12px;
+  align-items: center; /* Ensures everything is aligned in the same row */
+  gap: 10px;
 }
 
 .user-info {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Ensures text is aligned to the left */
 }
 
 .username {
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: bold;
+  margin: 0; /* Remove extra margins */
 }
 
 .timestamp {
+  color: gray;
   font-size: 12px;
-  color: #65676b;
-  margin-top: 2px;
+  margin: 0; /* Remove extra margins */
 }
 
-/* Body */
+.user-avatar {
+  color: gray;
+}
+
 .post-body {
-  padding: 12px 16px;
+  margin-bottom: 10px;
 }
 
 .post-title {
-  font-size: 17px;
-  margin: 0 0 8px 0;
-  font-weight: 600;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .post-description {
-  font-size: 15px;
-  margin: 0 0 12px 0;
-  color: #333;
-  line-height: 1.4;
+  color: #555;
 }
 
 .post-tags {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .tag {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  color: #65676b;
+  background: #e4e6eb;
+  padding: 5px 8px;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
-/* Actions */
 .post-actions {
   display: flex;
-  padding: 8px 16px;
-  border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
+  gap: 15px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
 }
 
 .action-button {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: none;
   border: none;
-  padding: 8px 16px;
-  font-size: 14px;
-  color: #65676b;
   cursor: pointer;
-  border-radius: 4px;
-}
-
-.action-button:hover {
-  background: #f5f5f5;
-}
-
-.action-button.liked {
-  color: #ff6b6b;
-}
-
-/* Comments */
-.comments-section {
-  padding: 12px 16px;
-  background: #f9f9f9;
-}
-
-.comment {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.comment-avatar {
-  color: #ccc;
-  flex-shrink: 0;
-}
-
-.comment-content {
-  background: white;
-  padding: 8px 12px;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-.comment-user {
-  font-weight: 600;
-  font-size: 13px;
-  display: block;
-  margin-bottom: 2px;
-}
-
-.comment-form {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  align-items: center;
-}
-
-.comment-form input {
-  flex: 1;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
   font-size: 14px;
-  outline: none;
+  color: #6200ea;
+}
+
+.liked {
+  font-weight: bold;
+}
+
+.heart-icon {
+  color: #6200ea;
+}
+
+.comment-icon {
+  color: #6200ea;
+}
+
+.comments-section {
+  margin-top: 10px;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 8px;
 }
 
 .comment-button {
+  width: 100%;
   background: #6200ea;
   color: white;
   border: none;
-  border-radius: 20px;
-  padding: 10px 16px;
-  font-weight: 600;
-  font-size: 14px;
+  padding: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s;
-  white-space: nowrap;
 }
 
-.comment-form button {
-  background: #7c4dff;
+.comments-list {
+  margin-top: 8px;
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align text to the left */
+}
+
+.comment-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.comment-avatar {
+  flex-shrink: 0; /* Prevents the avatar from shrinking */
+}
+
+.comment-text {
+  /* NEW CLASS */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Ensures text is left-aligned */
+  flex-grow: 1; /* Allows text to take up remaining space */
+}
+
+.comment-user {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.comment-message {
+  /* NEW CLASS */
+  margin: 0;
+  color: #333; /* Slightly darker for better readability */
+}
+
+/* Styles for the donation button */
+.donations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 2px solid #eee;
+}
+
+/* Centering the popup */
+.form-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1000;
+  max-width: 400px;
+}
+
+/* Ensure the overlay covers the full screen */
+.form-popup.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+}
+
+/* Adjust the form container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Improve input spacing */
+.input-field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* Improve file input styling */
+.file-input {
+  padding: 5px;
+  border: none;
+}
+
+/* Button Styling */
+.accent-button {
+  background-color: #6200ea;
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 0 12px;
-  font-weight: 600;
+  padding: 12px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.accent-button:hover {
+  background-color: #4500a5;
+}
+
+/* Close button */
+.close-button {
+  background-color: #ccc;
+  color: black;
+}
+
+.close-button:hover {
+  background-color: #999;
+}
+
+/* Center the add donation button */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Improve the button design */
+.add-donation-button {
+  background-color: #6200ea;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-donation-button:hover {
+  background-color: #4500a5;
+}
+
+.post-image-container {
+  margin: 15px 0;
+  border-radius: 8px;
+  max-height: 500px;
+  overflow-y: auto; /* Allows scrolling for tall images */
+}
+
+.post-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Loader.css */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #6200ea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
