@@ -45,7 +45,7 @@ const DonationForm = ({ onCancel, onSubmit }) => {
       }}
     >
       <h2>New Donation Post</h2>
-      <form onSubmit={handleSubmit}>
+      <form name='donationForm' onSubmit={handleSubmit}>
         <div style={{ marginBottom: '15px' }}>
           <label>Title*</label>
           <input
