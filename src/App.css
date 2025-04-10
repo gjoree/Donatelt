@@ -228,6 +228,7 @@ form {
   display: flex;
   align-items: center; /* Ensures everything is aligned in the same row */
   gap: 10px;
+  justify-content: space-between;
 }
 
 .user-info {

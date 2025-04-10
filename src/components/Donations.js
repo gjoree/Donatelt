@@ -22,6 +22,23 @@ const Donations = () => {
     }
   }
 
+  const handleDeletePost = async (postId, type) => {
+    if (!window.confirm('Are you sure you want to delete this post?')) return
+
+    try {
+      await axios.delete(`http://localhost:5000/api/${type}s/${postId}`)
+      setDonations((prev) =>
+        prev.filter(
+          (p) =>
+            (type === 'donation' ? p.donation_id : p.receiving_id) !== postId,
+        ),
+      )
+    } catch (err) {
+      console.error('Error deleting post:', err)
+      alert('Failed to delete post.')
+    }
+  }
+
   const handleSubmitNewPost = async (postData) => {
     setShowForm(false)
     try {
@@ -107,7 +124,12 @@ const Donations = () => {
           ) : (
             <div className='posts-container'>
               {donations.map((post) => (
-                <Post key={post.donation_id} post={post} type='donation' />
+                <Post
+                  key={post.donation_id}
+                  post={post}
+                  type='donation'
+                  onDelete={handleDeletePost}
+                />
               ))}
             </div>
           )}

@@ -9,12 +9,23 @@ import {
   FaMapMarkerAlt,
 } from 'react-icons/fa'
 
-const Post = ({ post, type }) => {
+const Post = ({ post, type, onDelete }) => {
   const [comments, setComments] = useState(post.comments || [])
   const [newComment, setNewComment] = useState('')
   const [isUpvoted, setIsUpvoted] = useState(false)
   const [upvoteCount, setUpvoteCount] = useState(0)
   const user = JSON.parse(localStorage.getItem('user'))
+
+  const formatTimeAgo = (timestamp) => {
+    const now = new Date()
+    const date = new Date(timestamp)
+    const diff = Math.floor((now - date) / 1000) // in seconds
+
+    if (diff < 60) return 'just now'
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`
+    return `${Math.floor(diff / 86400)}d ago`
+  }
 
   // Fetch initial upvote state and count
   useEffect(() => {
@@ -54,8 +65,6 @@ const Post = ({ post, type }) => {
 
     try {
       const postId = type === 'donation' ? post.donation_id : post.receiving_id
-
-      // Optimistic update first
       const wasUpvoted = isUpvoted
       setIsUpvoted(!wasUpvoted)
       setUpvoteCount((prev) => (wasUpvoted ? prev - 1 : prev + 1))
@@ -129,12 +138,34 @@ const Post = ({ post, type }) => {
     <div className='post-background'>
       <div className='post-container'>
         {/* Header */}
-        <div className='post-header'>
-          <FaUserCircle className='user-avatar' size={40} />
-          <div className='user-info'>
-            <h3 className='username'>{post.user.username}</h3>
-            {/* <p className='timestamp'>{post.created_at}</p> */}
+        <div
+          className='post-header'
+          style={{ justifyContent: 'space-between', width: '100%' }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <FaUserCircle className='user-avatar' size={40} />
+            <div className='user-info'>
+              <h3 className='username'>{post.user.username}</h3>
+              <p className='timestamp'>{formatTimeAgo(post.created_at)}</p>
+            </div>
           </div>
+          {user && user.token === post.user_id && (
+            <button
+              onClick={() =>
+                onDelete(post.donation_id || post.receiving_id, type)
+              }
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: '#6200ea',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+              }}
+            >
+              Delete Post 🗑️
+            </button>
+          )}
         </div>
 
         {/* Body */}
@@ -151,7 +182,7 @@ const Post = ({ post, type }) => {
               alt={post.title}
               className='post-image'
               onError={(e) => {
-                e.target.style.display = 'none' // Hide if image fails to load
+                e.target.style.display = 'none' // Hide if image not available
               }}
             />
           </div>
@@ -209,11 +240,23 @@ const Post = ({ post, type }) => {
               <div key={index} className='comment-item'>
                 <FaUserCircle className='comment-avatar' size={28} />
                 <div className='comment-text'>
-                  {' '}
-                  {/* CHANGE CLASS TO "comment-text" */}
+                  {/* {user && user.token === comment.user_id && (
+                    <button
+                      onClick={() => onDeleteComment(comment.id)}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#6200ea',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Delete Post 🗑️
+                    </button>
+                  )}{' '} */}
                   <span className='comment-user'>{comment.username}</span>
                   <p className='comment-message'>{comment.content}</p>{' '}
-                  {/* ADDED NEW CLASS */}
                 </div>
               </div>
             ))}
