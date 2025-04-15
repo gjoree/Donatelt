@@ -77,6 +77,11 @@ const App = () => {
           <div className='navbar-container'>
             <Link to='/' className='navbar-logo'>
               Donatelt
+              <img
+                src='/donateltLogoPNG.png'
+                alt='Logo'
+                className='navbar-logo-image'
+              />
             </Link>
             <ul className='navbar-menu'>
               <li>
@@ -129,7 +134,7 @@ const App = () => {
                     </select>
                     <input
                       type='text'
-                      placeholder='Username'
+                      placeholder='Name'
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       required

@@ -12,15 +12,15 @@ router.post('/', upload.single('image'), (req, res) => {
     title,
     description,
     contact_number,
-    item_condition,
+    urgency,
     location_specific,
   } = req.body
 
   const image = req.file ? req.file.buffer : null
 
   const sql = `
-    INSERT INTO Donations 
-    (user_id, title, description, image, contact_number, item_condition, location_specific)
+    INSERT INTO Receivings 
+    (user_id, title, description, image, contact_number, urgency, location_specific)
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `
 
@@ -32,7 +32,7 @@ router.post('/', upload.single('image'), (req, res) => {
       description,
       image,
       contact_number,
-      item_condition,
+      urgency,
       location_specific,
     ],
     (err, result) => {
@@ -42,7 +42,7 @@ router.post('/', upload.single('image'), (req, res) => {
       }
       res
         .status(201)
-        .json({ message: 'Donation created', donation_id: result.insertId })
+        .json({ message: 'Receiving created', donation_id: result.insertId })
     },
   )
 })
@@ -54,7 +54,7 @@ router.get('/', async (req, res) => {
           d.*, 
           u.username AS username, 
           u.location AS location
-        FROM Donations d
+        FROM Receivings d
         JOIN Users u ON d.user_id = u.user_id
         ORDER BY d.created_at DESC
       `)
@@ -76,7 +76,7 @@ router.get('/', async (req, res) => {
 
     res.json(formatted)
   } catch (err) {
-    console.error('Error fetching donations:', err)
+    console.error('Error fetching receivings:', err)
     res.status(500).send('Server error')
   }
 })
@@ -84,11 +84,11 @@ router.get('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
   try {
-    await db.query('DELETE FROM Donations WHERE donation_id = ?', [id])
-    res.status(200).json({ message: 'Donation deleted' })
+    await db.query('DELETE FROM Receivings WHERE receiving_id = ?', [id])
+    res.status(200).json({ message: 'Receiving deleted' })
   } catch (err) {
-    console.error('Delete donation error:', err)
-    res.status(500).json({ error: 'Failed to delete donation' })
+    console.error('Delete receiving error:', err)
+    res.status(500).json({ error: 'Failed to delete receiving' })
   }
 })
 

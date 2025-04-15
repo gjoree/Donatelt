@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-// Get comments for a post (unchanged)
+// Get comments for a post
 router.get('/:postId/:postType', async (req, res) => {
   try {
     const [comments] = await db.query(
@@ -55,6 +55,18 @@ router.get('/:postId/:postType', async (req, res) => {
   } catch (err) {
     console.error('Error fetching comments:', err)
     res.status(500).json({ error: 'Failed to fetch comments' })
+  }
+})
+
+//Delete a comment
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    await db.query('DELETE FROM Comments WHERE comment_id = ?', [id])
+    res.status(200).json({ message: 'Comment deleted' })
+  } catch (err) {
+    console.error('Delete comment error:', err)
+    res.status(500).json({ error: 'Failed to delete comment' })
   }
 })
 

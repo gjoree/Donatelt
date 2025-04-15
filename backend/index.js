@@ -3,8 +3,10 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const authRoutes = require('./routes/auth')
 const donationsRouter = require('./routes/donations')
+const receivingRouter = require('./routes/receivings')
 const commentsRouter = require('./routes/comments')
 const upvoteRouter = require('./routes/upvotes')
+const latestPostRouter = require('./routes/posts')
 
 const app = express()
 
@@ -15,8 +17,10 @@ app.use(bodyParser.json())
 // Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/donations', donationsRouter)
+app.use('/api/receivings', receivingRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/upvotes', upvoteRouter)
+app.use('/api/posts', latestPostRouter)
 
 // Start server
 const PORT = process.env.PORT || 5000

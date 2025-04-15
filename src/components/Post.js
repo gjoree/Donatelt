@@ -7,14 +7,40 @@ import {
   FaComment,
   FaUserCircle,
   FaMapMarkerAlt,
+  FaPhone,
+  FaExclamationTriangle,
+  FaInfo,
 } from 'react-icons/fa'
 
-const Post = ({ post, type }) => {
+const Post = ({ post, type, onDelete }) => {
   const [comments, setComments] = useState(post.comments || [])
   const [newComment, setNewComment] = useState('')
   const [isUpvoted, setIsUpvoted] = useState(false)
   const [upvoteCount, setUpvoteCount] = useState(0)
   const user = JSON.parse(localStorage.getItem('user'))
+
+  const formatTimeAgo = (timestamp) => {
+    const now = new Date()
+    const date = new Date(timestamp)
+    const diff = Math.floor((now - date) / 1000) // in seconds
+
+    if (diff < 60) return 'just now'
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`
+    return `${Math.floor(diff / 86400)}d ago`
+  }
+
+  const handleDeleteComment = async (commentId) => {
+    if (!window.confirm('Delete this comment?')) return
+
+    try {
+      await axios.delete(`http://localhost:5000/api/comments/${commentId}`)
+      setComments((prev) => prev.filter((c) => c.comment_id !== commentId))
+    } catch (err) {
+      console.error('Failed to delete comment:', err)
+      alert('Could not delete comment')
+    }
+  }
 
   // Fetch initial upvote state and count
   useEffect(() => {
@@ -54,8 +80,6 @@ const Post = ({ post, type }) => {
 
     try {
       const postId = type === 'donation' ? post.donation_id : post.receiving_id
-
-      // Optimistic update first
       const wasUpvoted = isUpvoted
       setIsUpvoted(!wasUpvoted)
       setUpvoteCount((prev) => (wasUpvoted ? prev - 1 : prev + 1))
@@ -129,12 +153,34 @@ const Post = ({ post, type }) => {
     <div className='post-background'>
       <div className='post-container'>
         {/* Header */}
-        <div className='post-header'>
-          <FaUserCircle className='user-avatar' size={40} />
-          <div className='user-info'>
-            <h3 className='username'>{post.user.username}</h3>
-            {/* <p className='timestamp'>{post.created_at}</p> */}
+        <div
+          className='post-header'
+          style={{ justifyContent: 'space-between', width: '100%' }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <FaUserCircle className='user-avatar' size={40} />
+            <div className='user-info'>
+              <h3 className='username'>{post.user.username}</h3>
+              <p className='timestamp'>{formatTimeAgo(post.created_at)}</p>
+            </div>
           </div>
+          {user && user.token === post.user_id && (
+            <button
+              onClick={() =>
+                onDelete(post.donation_id || post.receiving_id, type)
+              }
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: '#6200ea',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+              }}
+            >
+              Delete Post 🗑️
+            </button>
+          )}
         </div>
 
         {/* Body */}
@@ -151,7 +197,7 @@ const Post = ({ post, type }) => {
               alt={post.title}
               className='post-image'
               onError={(e) => {
-                e.target.style.display = 'none' // Hide if image fails to load
+                e.target.style.display = 'none' // Hide if image not available
               }}
             />
           </div>
@@ -162,11 +208,18 @@ const Post = ({ post, type }) => {
           <span className='tag'>
             <FaMapMarkerAlt /> {post.location_specific || post.user.location}
           </span>
+          <span className='tag'>
+            <FaPhone /> {post.contact_number}
+          </span>
           {type === 'donation' && (
-            <span className='tag'>Condition: {post.item_condition}</span>
+            <span className='tag'>
+              <FaInfo /> Condition: {post.item_condition}
+            </span>
           )}
           {type === 'receiving' && (
-            <span className='tag'>Urgency: {post.urgency}</span>
+            <span className='tag'>
+              <FaExclamationTriangle /> Urgency: {post.urgency}
+            </span>
           )}
         </div>
 
@@ -206,15 +259,34 @@ const Post = ({ post, type }) => {
           {/* Display Comments */}
           <div className='comments-list'>
             {comments.map((comment, index) => (
-              <div key={index} className='comment-item'>
-                <FaUserCircle className='comment-avatar' size={28} />
-                <div className='comment-text'>
-                  {' '}
-                  {/* CHANGE CLASS TO "comment-text" */}
-                  <span className='comment-user'>{comment.username}</span>
-                  <p className='comment-message'>{comment.content}</p>{' '}
-                  {/* ADDED NEW CLASS */}
+              <div
+                key={index}
+                className='comment-item'
+                style={{ display: 'flex', justifyContent: 'space-between' }}
+              >
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <FaUserCircle className='comment-avatar' size={28} />
+                  <div className='comment-text'>
+                    <span className='comment-user'>{comment.username}</span>
+                    <p className='comment-message'>{comment.content}</p>
+                  </div>
                 </div>
+                {user && user.token === comment.user_id && (
+                  <button
+                    onClick={() => handleDeleteComment(comment.comment_id)}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#ff4d4d',
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      alignSelf: 'start',
+                    }}
+                    title='Delete comment'
+                  >
+                    🗑️
+                  </button>
+                )}
               </div>
             ))}
           </div>
