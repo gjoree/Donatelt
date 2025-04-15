@@ -26,19 +26,19 @@ const Home = () => {
       {user ? (
         <>
           <p>
-            <p>
-              Welcome to Donatelt — a platform for helping others in Slovenia!
-              <img
-                src='https://flagcdn.com/w40/si.png'
-                alt='Slovenian flag'
-                style={{
-                  width: '24px',
-                  verticalAlign: 'middle',
-                  marginLeft: '6px',
-                  transform: 'translate(2px, -2px)',
-                }}
-              />
-            </p>
+            Welcome to Donatelt — a platform for helping others in Slovenia!
+            <img
+              src='https://flagcdn.com/w40/si.png'
+              alt='Slovenian flag'
+              style={{
+                width: '24px',
+                verticalAlign: 'middle',
+                marginLeft: '6px',
+                transform: 'translate(2px, -2px)',
+              }}
+            />
+            <br />
+            <br />
             Donatelt is a community-driven platform connecting those who want to
             give with those in need. Browse available donations or explore
             requests from individuals and organizations seeking support.

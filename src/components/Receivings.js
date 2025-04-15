@@ -18,7 +18,7 @@ const Receivings = () => {
       console.error('Error fetching Receivings:', err)
       alert('Failed to load receivings.')
     } finally {
-      setLoading(false) // Always set loading to false when done
+      setLoading(false)
     }
   }
 
@@ -49,7 +49,7 @@ const Receivings = () => {
       formData.append('urgency', postData.urgency)
       formData.append('location_specific', postData.location_specific)
       formData.append('contact_number', postData.contact_number)
-      formData.append('user_id', user.token) // assuming user is from localStorage
+      formData.append('user_id', user.token)
 
       const response = await axios.post(
         'http://localhost:5000/api/receivings',

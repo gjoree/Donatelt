@@ -18,6 +18,21 @@ const Post = ({ post, type, onDelete }) => {
   const [isUpvoted, setIsUpvoted] = useState(false)
   const [upvoteCount, setUpvoteCount] = useState(0)
   const user = JSON.parse(localStorage.getItem('user'))
+  const [showOverlay, setShowOverlay] = useState(false)
+  const [userInfo, setUserInfo] = useState(null)
+
+  const handleUserHover = async () => {
+    try {
+      if (!post.user_id) return
+      const res = await axios.get(
+        `http://localhost:5000/api/users/${post.user_id}`,
+      )
+      setUserInfo(res.data)
+      setShowOverlay(true)
+    } catch (err) {
+      console.error('Failed to load user info:', err)
+    }
+  }
 
   const formatTimeAgo = (timestamp) => {
     const now = new Date()
@@ -158,7 +173,42 @@ const Post = ({ post, type, onDelete }) => {
           style={{ justifyContent: 'space-between', width: '100%' }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <FaUserCircle className='user-avatar' size={40} />
+            <div
+              style={{ position: 'relative', display: 'inline-block' }}
+              onMouseEnter={handleUserHover}
+              onMouseLeave={() => setShowOverlay(false)}
+            >
+              <FaUserCircle className='user-avatar' size={40} />
+
+              {showOverlay && userInfo && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    zIndex: 10,
+                    background: 'white',
+                    border: '1px solid #ccc',
+                    borderRadius: '8px',
+                    padding: '10px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                    width: '220px',
+                    fontSize: '14px',
+                  }}
+                >
+                  <strong>{userInfo.username}</strong>
+                  <p style={{ margin: '4px 0' }}>📍 {userInfo.location}</p>
+                  <p style={{ margin: '4px 0' }}>📧 {userInfo.email}</p>
+                  <p style={{ margin: '4px 0' }}>📱 {userInfo.mobile_number}</p>
+                  <p
+                    style={{ margin: '4px 0', fontSize: '12px', color: '#666' }}
+                  >
+                    Member since{' '}
+                    {new Date(userInfo.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+              )}
+            </div>
             <div className='user-info'>
               <h3 className='username'>{post.user.username}</h3>
               <p className='timestamp'>{formatTimeAgo(post.created_at)}</p>

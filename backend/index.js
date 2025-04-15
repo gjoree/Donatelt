@@ -7,6 +7,7 @@ const receivingRouter = require('./routes/receivings')
 const commentsRouter = require('./routes/comments')
 const upvoteRouter = require('./routes/upvotes')
 const latestPostRouter = require('./routes/posts')
+const userRouter = require('./routes/users')
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use('/api/receivings', receivingRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/upvotes', upvoteRouter)
 app.use('/api/posts', latestPostRouter)
+app.use('/api/users', userRouter)
 
 // Start server
 const PORT = process.env.PORT || 5000
