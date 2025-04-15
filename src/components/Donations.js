@@ -7,7 +7,7 @@ import Loader from './Loading'
 const Donations = () => {
   const [showForm, setShowForm] = useState(false)
   const [donations, setDonations] = useState([])
-  const [loading, setLoading] = useState(true) // Initialize as true
+  const [loading, setLoading] = useState(true)
   const user = JSON.parse(localStorage.getItem('user'))
 
   const fetchDonations = async () => {
@@ -18,7 +18,7 @@ const Donations = () => {
       console.error('Error fetching donations:', err)
       alert('Failed to load donations.')
     } finally {
-      setLoading(false) // Always set loading to false when done
+      setLoading(false)
     }
   }
 
@@ -45,11 +45,11 @@ const Donations = () => {
       const formData = new FormData()
       formData.append('title', postData.title)
       formData.append('description', postData.description)
-      formData.append('image', postData.image) // should be a File object
+      formData.append('image', postData.image)
       formData.append('item_condition', postData.item_condition)
       formData.append('location_specific', postData.location_specific)
       formData.append('contact_number', postData.contact_number)
-      formData.append('user_id', user.token) // assuming user is from localStorage
+      formData.append('user_id', user.token)
 
       const response = await axios.post(
         'http://localhost:5000/api/donations',
@@ -119,8 +119,9 @@ const Donations = () => {
             />
           )}
 
+          {/* Posts or loading */}
           {loading ? (
-            <Loader /> // Show loader while loading
+            <Loader />
           ) : (
             <div className='posts-container'>
               {donations.map((post) => (

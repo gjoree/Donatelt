@@ -7,6 +7,9 @@ import {
   FaComment,
   FaUserCircle,
   FaMapMarkerAlt,
+  FaPhone,
+  FaExclamationTriangle,
+  FaInfo,
 } from 'react-icons/fa'
 
 const Post = ({ post, type, onDelete }) => {
@@ -25,6 +28,18 @@ const Post = ({ post, type, onDelete }) => {
     if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
     if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`
     return `${Math.floor(diff / 86400)}d ago`
+  }
+
+  const handleDeleteComment = async (commentId) => {
+    if (!window.confirm('Delete this comment?')) return
+
+    try {
+      await axios.delete(`http://localhost:5000/api/comments/${commentId}`)
+      setComments((prev) => prev.filter((c) => c.comment_id !== commentId))
+    } catch (err) {
+      console.error('Failed to delete comment:', err)
+      alert('Could not delete comment')
+    }
   }
 
   // Fetch initial upvote state and count
@@ -193,11 +208,18 @@ const Post = ({ post, type, onDelete }) => {
           <span className='tag'>
             <FaMapMarkerAlt /> {post.location_specific || post.user.location}
           </span>
+          <span className='tag'>
+            <FaPhone /> {post.contact_number}
+          </span>
           {type === 'donation' && (
-            <span className='tag'>Condition: {post.item_condition}</span>
+            <span className='tag'>
+              <FaInfo /> Condition: {post.item_condition}
+            </span>
           )}
           {type === 'receiving' && (
-            <span className='tag'>Urgency: {post.urgency}</span>
+            <span className='tag'>
+              <FaExclamationTriangle /> Urgency: {post.urgency}
+            </span>
           )}
         </div>
 
@@ -237,27 +259,34 @@ const Post = ({ post, type, onDelete }) => {
           {/* Display Comments */}
           <div className='comments-list'>
             {comments.map((comment, index) => (
-              <div key={index} className='comment-item'>
-                <FaUserCircle className='comment-avatar' size={28} />
-                <div className='comment-text'>
-                  {/* {user && user.token === comment.user_id && (
-                    <button
-                      onClick={() => onDeleteComment(comment.id)}
-                      style={{
-                        background: 'transparent',
-                        border: 'none',
-                        color: '#6200ea',
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Delete Post 🗑️
-                    </button>
-                  )}{' '} */}
-                  <span className='comment-user'>{comment.username}</span>
-                  <p className='comment-message'>{comment.content}</p>{' '}
+              <div
+                key={index}
+                className='comment-item'
+                style={{ display: 'flex', justifyContent: 'space-between' }}
+              >
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <FaUserCircle className='comment-avatar' size={28} />
+                  <div className='comment-text'>
+                    <span className='comment-user'>{comment.username}</span>
+                    <p className='comment-message'>{comment.content}</p>
+                  </div>
                 </div>
+                {user && user.token === comment.user_id && (
+                  <button
+                    onClick={() => handleDeleteComment(comment.comment_id)}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#ff4d4d',
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      alignSelf: 'start',
+                    }}
+                    title='Delete comment'
+                  >
+                    🗑️
+                  </button>
+                )}
               </div>
             ))}
           </div>

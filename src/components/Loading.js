@@ -4,7 +4,7 @@ const Loader = () => {
   return (
     <div className='loader-container'>
       <div className='loader'></div>
-      <p>Loading donations...</p>
+      <p>Loading posts...</p>
     </div>
   )
 }
