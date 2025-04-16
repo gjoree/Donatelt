@@ -7,19 +7,16 @@ router.post('/', async (req, res) => {
   const { content, postId, postType, userId } = req.body
 
   try {
-    // Simple validation
     if (!content || !postId || !postType || !userId) {
       return res.status(400).json({ error: 'Missing required fields' })
     }
 
-    // Insert comment
     const [result] = await db.query(
       `INSERT INTO Comments (content, user_id, ${postType}_id)
        VALUES (?, ?, ?)`,
       [content, userId, postId],
     )
 
-    // Get full comment data
     const [comment] = await db.query(
       `
       SELECT c.*, u.username 

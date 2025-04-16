@@ -7,14 +7,12 @@ router.post('/toggle', async (req, res) => {
   const { userId, postId, postType } = req.body
 
   try {
-    // Validate input
     if (!userId || !postId || !postType) {
       return res.status(400).json({ error: 'Missing required fields' })
     }
 
     const column = postType === 'donation' ? 'donation_id' : 'receiving_id'
 
-    // Check existing upvote
     const [existing] = await db.query(
       `SELECT * FROM Upvotes 
          WHERE user_id = ? 
@@ -23,7 +21,6 @@ router.post('/toggle', async (req, res) => {
     )
 
     if (existing.length > 0) {
-      // Remove upvote
       await db.query(
         `DELETE FROM Upvotes 
            WHERE upvote_id = ?`,
@@ -31,7 +28,6 @@ router.post('/toggle', async (req, res) => {
       )
       return res.json({ upvoted: false })
     } else {
-      // Add upvote
       await db.query(
         `INSERT INTO Upvotes (user_id, ${column})
            VALUES (?, ?)`,
@@ -79,7 +75,7 @@ router.get('/check/:userId/:postId/:postType', async (req, res) => {
     res.json({ upvoted: result.length > 0 })
   } catch (err) {
     console.error('Error checking upvote:', err)
-    res.status(500).json({ error: 'Failed to check upvote' })
+    res.status(500).json({ erSror: 'Failed to check upvote' })
   }
 })
 

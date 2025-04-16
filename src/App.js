@@ -21,13 +21,13 @@ const App = () => {
 
   const toggleLogin = () => {
     setLoginOpen(!isLoginOpen)
-    setSignUp(false) // Reset to Login form when pop-up is opened
-    setError('') // Clear any previous errors
+    setSignUp(false)
+    setError('')
   }
 
   const toggleSignUp = () => {
     setSignUp(!isSignUp)
-    setError('') // Clear any previous errors
+    setError('')
   }
 
   const handleLogin = async (e) => {
@@ -38,9 +38,9 @@ const App = () => {
         { email, password },
       )
       if (response.data.token) {
-        localStorage.setItem('user', JSON.stringify(response.data)) // Save user data in localStorage
-        toggleLogin() // Close the pop-up
-        window.location.reload() // Refresh the page to update the UI
+        localStorage.setItem('user', JSON.stringify(response.data))
+        toggleLogin()
+        window.location.reload()
       }
     } catch (err) {
       setError('Invalid credentials. Please try again.')
@@ -56,7 +56,7 @@ const App = () => {
       )
       if (response.data) {
         alert('Sign-up successful! Please log in.')
-        toggleSignUp() // Switch back to the Login form
+        toggleSignUp()
       }
     } catch (err) {
       setError('Sign-up failed. Please try again.')
@@ -64,8 +64,8 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('user') // Remove user data from localStorage
-    window.location.reload() // Refresh the page to update the UI
+    localStorage.removeItem('user')
+    window.location.reload()
   }
 
   const user = JSON.parse(localStorage.getItem('user'))

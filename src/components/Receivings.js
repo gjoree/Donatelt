@@ -7,7 +7,7 @@ import Loader from './Loading'
 const Receivings = () => {
   const [showForm, setShowForm] = useState(false)
   const [receivings, setReceivings] = useState([])
-  const [loading, setLoading] = useState(true) // Initialize as true
+  const [loading, setLoading] = useState(true)
   const user = JSON.parse(localStorage.getItem('user'))
 
   const fetchReceivings = async () => {
@@ -45,7 +45,7 @@ const Receivings = () => {
       const formData = new FormData()
       formData.append('title', postData.title)
       formData.append('description', postData.description)
-      formData.append('image', postData.image) // should be a File object
+      formData.append('image', postData.image)
       formData.append('urgency', postData.urgency)
       formData.append('location_specific', postData.location_specific)
       formData.append('contact_number', postData.contact_number)
@@ -120,7 +120,7 @@ const Receivings = () => {
           )}
 
           {loading ? (
-            <Loader /> // Show loader while loading
+            <Loader />
           ) : (
             <div className='posts-container'>
               {receivings.map((post) => (

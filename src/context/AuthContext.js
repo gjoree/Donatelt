@@ -14,19 +14,19 @@ export const AuthProvider = ({ children }) => {
     }
   }, [])
 
-  // Sign-up function
+  // Sign-up
   const signup = async (username, email, password, location) => {
     const data = await auth.signup(username, email, password, location)
     setUser(data)
   }
 
-  // Login function
+  // Login
   const login = async (email, password) => {
     const data = await auth.login(email, password)
     setUser(data)
   }
 
-  // Logout function
+  // Logout
   const logout = () => {
     auth.logout()
     setUser(null)

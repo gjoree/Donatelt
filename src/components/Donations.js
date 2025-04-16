@@ -119,7 +119,6 @@ const Donations = () => {
             />
           )}
 
-          {/* Posts or loading */}
           {loading ? (
             <Loader />
           ) : (

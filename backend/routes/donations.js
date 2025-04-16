@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const multer = require('multer')
-const db = require('../db') // your MySQL connection
+const db = require('../db')
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })

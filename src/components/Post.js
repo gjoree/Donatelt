@@ -37,7 +37,7 @@ const Post = ({ post, type, onDelete }) => {
   const formatTimeAgo = (timestamp) => {
     const now = new Date()
     const date = new Date(timestamp)
-    const diff = Math.floor((now - date) / 1000) // in seconds
+    const diff = Math.floor((now - date) / 1000)
 
     if (diff < 60) return 'just now'
     if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
@@ -64,13 +64,11 @@ const Post = ({ post, type, onDelete }) => {
         const postId =
           type === 'donation' ? post.donation_id : post.receiving_id
 
-        // Get upvotes count
         const countRes = await axios.get(
           `http://localhost:5000/api/upvotes/count/${postId}/${type}`,
         )
         setUpvoteCount(countRes.data.count)
 
-        // Check if user upvoted
         if (user) {
           const checkRes = await axios.get(
             `http://localhost:5000/api/upvotes/check/${user.token}/${postId}/${type}`,
@@ -108,13 +106,11 @@ const Post = ({ post, type, onDelete }) => {
         },
       )
 
-      // Sync with actual response
       if (response.data.upvoted !== !wasUpvoted) {
         setIsUpvoted(response.data.upvoted)
         setUpvoteCount((prev) => (response.data.upvoted ? prev + 1 : prev - 1))
       }
     } catch (err) {
-      // Rollback on error
       setIsUpvoted((prev) => !prev)
       setUpvoteCount((prev) => prev + (isUpvoted ? 1 : -1))
 
@@ -153,7 +149,7 @@ const Post = ({ post, type, onDelete }) => {
         content: newComment,
         postId: post.donation_id || post.receiving_id,
         postType: type,
-        userId: user.token, // Send user ID from localStorage
+        userId: user.token,
       })
 
       setComments([response.data, ...comments])
@@ -167,7 +163,6 @@ const Post = ({ post, type, onDelete }) => {
   return (
     <div className='post-background'>
       <div className='post-container'>
-        {/* Header */}
         <div
           className='post-header'
           style={{ justifyContent: 'space-between', width: '100%' }}
@@ -232,14 +227,10 @@ const Post = ({ post, type, onDelete }) => {
             </button>
           )}
         </div>
-
-        {/* Body */}
         <div className='post-body'>
           <h3 className='post-title'>{post.title}</h3>
           <p className='post-description'>{post.description}</p>
         </div>
-
-        {/* Image Display */}
         {post.image && (
           <div className='post-image-container'>
             <img
@@ -247,13 +238,11 @@ const Post = ({ post, type, onDelete }) => {
               alt={post.title}
               className='post-image'
               onError={(e) => {
-                e.target.style.display = 'none' // Hide if image not available
+                e.target.style.display = 'none'
               }}
             />
           </div>
         )}
-
-        {/* Tags */}
         <div className='post-tags'>
           <span className='tag'>
             <FaMapMarkerAlt /> {post.location_specific || post.user.location}
@@ -272,8 +261,6 @@ const Post = ({ post, type, onDelete }) => {
             </span>
           )}
         </div>
-
-        {/* Actions */}
         <div className='post-actions'>
           <button
             className={`action-button ${isUpvoted ? 'liked' : ''}`}
@@ -291,8 +278,6 @@ const Post = ({ post, type, onDelete }) => {
             <span>{comments.length} Comments</span>
           </button>
         </div>
-
-        {/* Comments Section */}
         <div className='comments-section'>
           <input
             style={{ width: '93.7%' }}
@@ -305,8 +290,6 @@ const Post = ({ post, type, onDelete }) => {
           <button onClick={handleCommentSubmit} className='comment-button'>
             Add Comment
           </button>
-
-          {/* Display Comments */}
           <div className='comments-list'>
             {comments.map((comment, index) => (
               <div

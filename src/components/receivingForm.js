@@ -25,8 +25,6 @@ const ReceivingForm = ({ onCancel, onSubmit }) => {
     const file = e.target.files[0]
     if (file) {
       setNewPost((prev) => ({ ...prev, image: file }))
-
-      // Show preview
       const reader = new FileReader()
       reader.onload = () => setFilePreview(reader.result)
       reader.readAsDataURL(file)
