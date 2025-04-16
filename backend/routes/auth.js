@@ -11,19 +11,16 @@ router.post('/signup', async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    // Insert the new user into the database
     const [result] = await pool.query(
       'INSERT INTO Users (username, email, password, location, mobile_number) VALUES (?, ?, ?, ?, ?)',
       [username, email, hashedPassword, location, phoneNumber],
     )
 
-    // Fetch the newly inserted user
     const [newUser] = await pool.query(
       'SELECT * FROM Users WHERE user_id = ?',
       [result.insertId],
     )
 
-    // Return the new user
     res.json(newUser[0])
   } catch (err) {
     console.error(err.message)
@@ -35,12 +32,10 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body
   try {
-    // Fetch the user by email
     const [user] = await pool.query('SELECT * FROM Users WHERE email = ?', [
       email,
     ])
 
-    // Check if the user exists
     if (user.length === 0) {
       return res.status(400).json('Invalid credentials')
     }

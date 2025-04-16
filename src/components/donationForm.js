@@ -26,7 +26,6 @@ const DonationForm = ({ onCancel, onSubmit }) => {
     if (file) {
       setNewPost((prev) => ({ ...prev, image: file }))
 
-      // Show preview
       const reader = new FileReader()
       reader.onload = () => setFilePreview(reader.result)
       reader.readAsDataURL(file)
