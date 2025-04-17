@@ -10,7 +10,9 @@ const Home = () => {
   useEffect(() => {
     const fetchLatest = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/posts/latest')
+        const res = await axios.get(
+          `${process.env.REACT_APP_API}/api/posts/latest`,
+        )
         setLatestDonation(res.data.donation)
         setLatestReceiving(res.data.receiving)
       } catch (err) {

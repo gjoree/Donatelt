@@ -34,7 +34,7 @@ const App = () => {
     e.preventDefault()
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/login',
+        `${process.env.REACT_APP_API}/api/auth/login`,
         { email, password },
       )
       if (response.data.token) {
@@ -51,7 +51,7 @@ const App = () => {
     e.preventDefault()
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/signup',
+        `${process.env.REACT_APP_API}/api/auth/signup`,
         { username, email, password, location, phoneNumber },
       )
       if (response.data) {

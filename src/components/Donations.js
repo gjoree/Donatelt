@@ -12,7 +12,9 @@ const Donations = () => {
 
   const fetchDonations = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/donations')
+      const response = await axios.get(
+        `${process.env.REACT_APP_API}/api/donations`,
+      )
       setDonations(response.data)
     } catch (err) {
       console.error('Error fetching donations:', err)
@@ -26,7 +28,7 @@ const Donations = () => {
     if (!window.confirm('Are you sure you want to delete this post?')) return
 
     try {
-      await axios.delete(`http://localhost:5000/api/${type}s/${postId}`)
+      await axios.delete(`${process.env.REACT_APP_API}/api/${type}s/${postId}`)
       setDonations((prev) =>
         prev.filter(
           (p) =>
@@ -52,7 +54,7 @@ const Donations = () => {
       formData.append('user_id', user.token)
 
       const response = await axios.post(
-        'http://localhost:5000/api/donations',
+        `${process.env.REACT_APP_API}/api/donations`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },

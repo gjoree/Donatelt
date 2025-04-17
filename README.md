@@ -57,7 +57,7 @@ npm install
 Create a `.env` file and copy the .env.SAMPLE variables and fill them out.
 
 ```
-REACT_APP_API=http://YOUR_SERVER_IP:YOUR_BACKEND_PORT
+REACT_APP_API=http://YOUR_SERVER_IP:YOUR_BACKEND_PORT (5050)
 DB_HOST=localhost
 DB_USER=youruser
 DB_PASSWORD=yourpass
@@ -71,7 +71,7 @@ If you want to test the project locally, you need to SSH into the famnit server 
 ssh -L 3306:localhost:3306 enrollment_number@www.studenti.famnit.upr.si
 ```
 
-When prompted, type yes, and enter your password.
+When prompted, type yes, and enter your password. Then change the REACT_APP_API to localhost:5050 instead of the server IP.
 
 ---
 
