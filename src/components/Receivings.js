@@ -12,7 +12,9 @@ const Receivings = () => {
 
   const fetchReceivings = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/receivings')
+      const response = await axios.get(
+        `${process.env.REACT_APP_API}/api/receivings`,
+      )
       setReceivings(response.data)
     } catch (err) {
       console.error('Error fetching Receivings:', err)
@@ -26,7 +28,7 @@ const Receivings = () => {
     if (!window.confirm('Are you sure you want to delete this post?')) return
 
     try {
-      await axios.delete(`http://localhost:5000/api/${type}s/${postId}`)
+      await axios.delete(`${process.env.REACT_APP_API}/api/${type}s/${postId}`)
       setReceivings((prev) =>
         prev.filter(
           (p) =>
@@ -52,7 +54,7 @@ const Receivings = () => {
       formData.append('user_id', user.token)
 
       const response = await axios.post(
-        'http://localhost:5000/api/receivings',
+        `${process.env.REACT_APP_API}/api/receivings`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },

@@ -25,7 +25,7 @@ const Post = ({ post, type, onDelete }) => {
     try {
       if (!post.user_id) return
       const res = await axios.get(
-        `http://localhost:5000/api/users/${post.user_id}`,
+        `${process.env.REACT_APP_API}/api/users/${post.user_id}`,
       )
       setUserInfo(res.data)
       setShowOverlay(true)
@@ -49,7 +49,9 @@ const Post = ({ post, type, onDelete }) => {
     if (!window.confirm('Delete this comment?')) return
 
     try {
-      await axios.delete(`http://localhost:5000/api/comments/${commentId}`)
+      await axios.delete(
+        `${process.env.REACT_APP_API}/api/comments/${commentId}`,
+      )
       setComments((prev) => prev.filter((c) => c.comment_id !== commentId))
     } catch (err) {
       console.error('Failed to delete comment:', err)
@@ -65,13 +67,13 @@ const Post = ({ post, type, onDelete }) => {
           type === 'donation' ? post.donation_id : post.receiving_id
 
         const countRes = await axios.get(
-          `http://localhost:5000/api/upvotes/count/${postId}/${type}`,
+          `${process.env.REACT_APP_API}/api/upvotes/count/${postId}/${type}`,
         )
         setUpvoteCount(countRes.data.count)
 
         if (user) {
           const checkRes = await axios.get(
-            `http://localhost:5000/api/upvotes/check/${user.token}/${postId}/${type}`,
+            `${process.env.REACT_APP_API}/api/upvotes/check/${user.token}/${postId}/${type}`,
           )
           setIsUpvoted(checkRes.data.upvoted)
         }
@@ -98,7 +100,7 @@ const Post = ({ post, type, onDelete }) => {
       setUpvoteCount((prev) => (wasUpvoted ? prev - 1 : prev + 1))
 
       const response = await axios.post(
-        'http://localhost:5000/api/upvotes/toggle',
+        `${process.env.REACT_APP_API}/api/upvotes/toggle`,
         {
           userId: user.token,
           postId: postId,
@@ -124,7 +126,7 @@ const Post = ({ post, type, onDelete }) => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/comments/${post.donation_id || post.receiving_id}/${type}`,
+          `${process.env.REACT_APP_API}/api/comments/${post.donation_id || post.receiving_id}/${type}`,
         )
         setComments(response.data)
       } catch (err) {
@@ -145,12 +147,15 @@ const Post = ({ post, type, onDelete }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/comments', {
-        content: newComment,
-        postId: post.donation_id || post.receiving_id,
-        postType: type,
-        userId: user.token,
-      })
+      const response = await axios.post(
+        `${process.env.REACT_APP_API}/api/comments`,
+        {
+          content: newComment,
+          postId: post.donation_id || post.receiving_id,
+          postType: type,
+          userId: user.token,
+        },
+      )
 
       setComments([response.data, ...comments])
       setNewComment('')
@@ -199,7 +204,7 @@ const Post = ({ post, type, onDelete }) => {
                     style={{ margin: '4px 0', fontSize: '12px', color: '#666' }}
                   >
                     Member since{' '}
-                    {new Date(userInfo.created_at).toLocaleDateString()}
+                    {new Date(userInfo.created_at).toLocaleDateString('en-GB')}
                   </p>
                 </div>
               )}
