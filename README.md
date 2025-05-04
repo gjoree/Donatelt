@@ -25,12 +25,6 @@ git clone https://github.com/gjoree/donatelt.git
 cd donatelt
 ```
 
-Switch to a deployment branch if want to host the project on faculty server:
-
-```bash
-git checkout deploy-branch
-```
-
 ---
 
 ### ✅ 2. Install Dependencies
@@ -59,10 +53,11 @@ Create a `.env` file and copy the .env.SAMPLE variables and fill them out.
 ```
 REACT_APP_API=http://YOUR_SERVER_IP:YOUR_BACKEND_PORT (5050)
 DB_HOST=localhost
-DB_USER=youruser
-DB_PASSWORD=yourpass
-DB_NAME=yourdb
+DB_USER=your_user
+DB_PASSWORD=your_pass
+DB_NAME=your_db_name
 DB_PORT=3306
+PORT=3300
 ```
 
 If you want to test the project locally, you need to SSH into the famnit server with tunneling, so the database can work with:
